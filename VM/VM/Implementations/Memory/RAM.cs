@@ -13,6 +13,9 @@ public class RAM : IMemory {
 	// Size of this RAM.
 	public uint Size => (uint) FullMemory.Length;
 
+	// RAM should be the final hierarquie, so its actual size is the full size.
+	public uint ActualSize => Size;
+
 	// Constructor.
 	public RAM(uint Size) {
 		// Create full memory.

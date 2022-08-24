@@ -1,0 +1,8 @@
+MOV AX, 1
+MOV BX, 10
+aqui:
+INC AX
+OUT AX
+CMP AX, BX
+JL aqui
+HALT

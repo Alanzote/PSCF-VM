@@ -1,0 +1,21 @@
+MOV AX, [1000] ; Carrega o 1 número para MDC
+MOV BX, [1001] ; Carrega o 2 número para MDC
+
+MDC:
+CMP AX, BX ; Comparamos os registradores
+JZ FINAL ; Se for 0, pulamos para o Final..
+JL MDCA ; Se for < 0, pulamos para MDCA
+JG MDCB ; Se for > 0, pulamos para MDCB
+
+MDCA:
+SUB BX, AX ; Subtrai u do v, salvando em BX (v)
+JMP MDC ; Voltar para o MDC.
+
+MDCB:
+SUB AX, BX ; Subtrai v do u, salvando em AX (u)
+JMP MDC ; Voltar para o MDC.
+
+FINAL:
+MOV [1002], AX ; Copiar Resultado para 1002.
+OUT AX ; Só para Sabermos o que está rolando...
+HALT

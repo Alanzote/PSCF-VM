@@ -5,7 +5,12 @@ namespace VM.Interfaces;
 public interface IMemory {
 
 	// The Size of this Memory.
+	// FULL hierarquical memory.
 	uint Size { get; }
+
+	// The Actual Size of this Memory.
+	// Memory of this Single Memory Chip.
+	uint ActualSize { get; }
 
 	// Reads an Address for the Memory.
 	int Read(uint Address);

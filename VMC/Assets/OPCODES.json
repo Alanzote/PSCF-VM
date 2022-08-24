@@ -1,0 +1,23 @@
+﻿{
+  "NOP": 0,
+  "HALT": 1,
+  "MOV_RR": 2,
+  "MOV_RM": 3,
+  "MOV_MR": 4,
+  "MOV_RI": 5,
+  "MOV_MI": 6,
+  "MOV_AR": 7,
+  "MOV_RA": 8,
+  "ADD": 9,
+  "SUB": 10,
+  "MUL": 11,
+  "DIV": 12,
+  "INC": 13,
+  "DEC": 14,
+  "CMP": 15,
+  "JMP": 16,
+  "JZ": 17,
+  "JG": 18,
+  "JL": 19,
+  "OUT": 20
+}

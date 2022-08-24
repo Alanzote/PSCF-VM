@@ -1,0 +1,8 @@
+NOP ; It is good to Start with a NOP for reasons...
+MOV AX, 10 ; We move 10 to First Register.
+INC AX; Increment AX, so now it is 11.
+OUT AX ;We see if the Result Matches.
+MOV [4], AX ; Write to Memory Address 4 the 11.
+MOV BX, [4] ; Back to BX.
+OUT BX ; Output BX.
+HALT ; And we finish the execution.
