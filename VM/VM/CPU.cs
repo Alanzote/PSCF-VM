@@ -1,6 +1,7 @@
 ﻿// Usings...
 using System.Reflection;
 using VM.Exceptions;
+using VM.Implementations.Instructions;
 using VM.Interfaces;
 
 // Namespace...
@@ -22,6 +23,13 @@ public class CPU {
 	// Invokation Parameters for Execute and Name Methods.
 	private readonly object[] ExecuteParams;
 	private readonly object[] NameParams;
+
+	// The Amount of NOPs until a mandatory break.
+	private const uint NOPsBreak = 30;
+	private uint CurNOPsBreak = 0;
+
+	// If we should print each step while runing.
+	public bool StepPrint = true;
 
 	// Construtor.
 	public CPU(IO Io, IMemory Memory) {
@@ -70,21 +78,35 @@ public class CPU {
 	}
 
 	// Runs the Program at the Address.
-	public void Run(uint Address = 0) {
+	public TimeSpan Run(uint Address = 0) {
+		// Time we Started Calculating.
+		DateTime StartTime = DateTime.Now;
+
 		// Set Program Counter.
 		Registers.PC = Address;
 
 		// Loop Forever...
 		while (true) {
+			// The Instruction OpCode.
+			int OpCode = Memory.Read(Registers.PC);
+
+			// Update Cur NOP Breaks.
+			CurNOPsBreak = (OpCode == NOP.OpCode ? CurNOPsBreak + 1 : 0);
+
+			// If we exceed it, we stop running.
+			if (CurNOPsBreak > NOPsBreak)
+				throw new Exception("Reached maximum amount of NOPs, breaking automatically to prevent infinite loop.");
+
 			// Find the Instruction.
-			if (!Instructions!.TryGetValue(Memory.Read(Registers.PC), out var Instruction))
+			if (!Instructions!.TryGetValue(OpCode, out var Instruction))
 				throw new InvalidOperationException($"Instruction {Memory.Read(Registers.PC)} at {Registers.PC} not found.");
 
 			// We increment the Program Counter so the Instruction can access data without incrementing too much.
 			Registers.PC++;
 
 			// Notify Instruction.
-			Io.Output($"{Registers.PC - 1}	{Instruction.Item3.Invoke(null, NameParams)}\n");
+			if (StepPrint)
+				Io.Output($"{Registers.PC - 1}	{Instruction.Item3.Invoke(null, NameParams)}\n");
 
 			// Let's try to run the Instruction...
 			try {
@@ -103,27 +125,8 @@ public class CPU {
 			// and those need to be showed to be fixed.
 		}
 
-		/*
-		// Read Start and End Points.
-		int StartPoint = Memory.Read(Registers.PC);
-		int EndPoint = Memory.Read(Registers.PC + 1);
-
-		// Make sure Operation is Valid.
-		if (EndPoint < StartPoint)
-			throw new InvalidOperationException();
-
-		// Notify the Operation Start.
-		Io.Output($"Writing 1...n at addresses from {StartPoint} to {EndPoint}.\n");
-
-		// Write Values from 1 to n from start point to end point.
-		for (var i = 0; i <= (EndPoint - StartPoint); i++) {
-			// Write to Memory.
-			Memory.Write((uint)(StartPoint + i), i + 1);
-
-			// We Output this Action.
-			Io.Output($"Wrote {i + 1} to address {StartPoint + i}.\n");
-		}
-		*/
+		// When we finish, return timespan.
+		return DateTime.Now - StartTime;
 	}
 }
 

@@ -12,9 +12,13 @@
   <ItemGroup>
     <None Remove="VM\Exceptions\" />
     <None Remove="VM\Extensions\" />
+    <None Remove="Humanizer.Core" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="VM\Exceptions\" />
     <Folder Include="VM\Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Humanizer.Core" Version="2.14.1" />
   </ItemGroup>
 </Project>

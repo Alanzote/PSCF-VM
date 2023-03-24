@@ -47,5 +47,10 @@ public class RAM : IMemory {
 		// Validate.
 		return Address >= 0 && Address < Size;
 	}
+
+	// Grabs the Parent of this Memory.
+	public IMemory? GetParent() {
+		return null;
+	}
 }
 

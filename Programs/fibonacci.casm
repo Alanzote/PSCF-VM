@@ -1,0 +1,25 @@
+MOV AX, 0 ; Começo Sequência
+MOV BX, 1 ; Final Sequência
+MOV CX, [1000] ; Resultado
+MOV DX, 2 ; Contador
+
+CMP CX, DX ; Se temos número menor que o contador...
+JG FIBONACCI ; Se não, começa fibonacci.
+MOV BX, CX ; Se sim, o valor que o usuário passou para nós vai ser o resultado. 
+JMP END ; Terminamos.
+
+FIBONACCI:
+MOV CX, AX ; 1 Número da Sequência para CX
+ADD CX, BX ; Adiciona BX (2 número) ao CX
+MOV AX, BX ; Move BX para AX
+MOV BX, CX ; Move CX para BX
+MOV CX, [1000] ; Olha o nosso Destino
+CMP CX, DX ; Compara o nosso Contador com o Destino
+JZ END ; Pula para o Final se Chegamos lá
+INC DX ; Outro número da Sequência
+JMP FIBONACCI
+
+END:
+MOV [1001], BX
+OUT BX
+HALT

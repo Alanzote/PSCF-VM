@@ -20,5 +20,8 @@ public interface IMemory {
 
 	// Used to Validate if a specific memory Address is valid.
 	bool IsAddressValid(uint Address);
+
+	// Grabs the Parent of this Memory, if any.
+	IMemory? GetParent();
 }
 

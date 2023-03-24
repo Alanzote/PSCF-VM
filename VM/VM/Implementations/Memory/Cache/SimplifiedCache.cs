@@ -3,10 +3,10 @@ using System;
 using VM.Interfaces;
 
 // Namespace...
-namespace VM.Implementations.Memory;
+namespace VM.Implementations.Memory.Cache;
 
 // Create Cache Memory.
-public class Cache : IMemory {
+public class SimplifiedCache : IMemory {
 
 	// Our Parent Memory.
 	private readonly IMemory _parent;
@@ -31,7 +31,7 @@ public class Cache : IMemory {
 	public uint ActualSize => (uint) CacheMemory.Length;
 
 	// Constructor.
-	public Cache(uint Size, IMemory Parent) {
+	public SimplifiedCache(uint Size, IMemory Parent) {
 		// Set Data.
 		_parent = Parent;
 
@@ -102,6 +102,11 @@ public class Cache : IMemory {
 
 		// This Cache is now Dirty and data shall be copied to RAM Next Copy.
 		IsDirty = true;
+	}
+
+	// Gets the Parent of this Cache.
+	public IMemory? GetParent() {
+		return _parent;
 	}
 }
 
